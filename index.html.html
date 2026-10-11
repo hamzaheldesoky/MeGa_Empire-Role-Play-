@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MeGa Empire | سيرفر رول بلاي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#08090f; --bg2:#0e1019; --card:#121523; --line:#252a40;
+  --text:#ecebe4; --muted:#9aa0b8;
+  --gold:#e3b44f; --gold2:#f6d78a; --crimson:#c8283e; --violet:#6b4bd6;
+  --nav:rgba(8,9,15,.78);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f6f3ea; --bg2:#ece7d8; --card:#fffdf7; --line:#d8d0b8;
+    --text:#1b1a22; --muted:#5e5b6e; --gold:#a8761a; --gold2:#7a520d;
+    --crimson:#b21d33; --violet:#4b30b5; --nav:rgba(246,243,234,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08090f; --bg2:#0e1019; --card:#121523; --line:#252a40;
+  --text:#ecebe4; --muted:#9aa0b8; --gold:#e3b44f; --gold2:#f6d78a;
+  --crimson:#c8283e; --violet:#6b4bd6; --nav:rgba(8,9,15,.78);
+}
+:root[data-theme="light"]{
+  --bg:#f6f3ea; --bg2:#ece7d8; --card:#fffdf7; --line:#d8d0b8;
+  --text:#1b1a22; --muted:#5e5b6e; --gold:#a8761a; --gold2:#7a520d;
+  --crimson:#b21d33; --violet:#4b30b5; --nav:rgba(246,243,234,.85);
+}
+html{scroll-padding-top:calc(84px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Tajawal',system-ui,sans-serif;font-size:17px;line-height:1.75;overflow-x:hidden}
+h1,h2,h3{font-family:'Reem Kufi','Tajawal',sans-serif;margin:0;line-height:1.2}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+/* NAV */
+header{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Reem Kufi';font-weight:700;font-size:23px;letter-spacing:.5px}
+.brand svg{width:34px;height:34px}
+.brand b{color:var(--gold)}
+nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0;align-items:center}
+nav a.link,nav button.link{background:none;border:0;color:var(--text);font:inherit;font-weight:500;padding:8px 14px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s,color .2s}
+nav a.link:hover,nav button.link:hover,nav button.link[aria-expanded="true"]{background:var(--bg2);color:var(--gold)}
+.dd{position:relative}
+.dd-menu{position:absolute;top:calc(100% + 10px);inset-inline-start:0;min-width:240px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 24px 50px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(-6px);transition:.18s}
+.dd-menu.open{opacity:1;visibility:visible;transform:none}
+.dd-menu a{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:9px;font-size:15.5px}
+.dd-menu a:hover{background:var(--bg2);color:var(--gold)}
+.dd-menu a span{font-size:13px;color:var(--muted);background:var(--bg2);padding:0 9px;border-radius:99px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:700;padding:11px 24px;border-radius:12px;transition:transform .15s,box-shadow .2s}
+.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1306;box-shadow:0 8px 26px rgba(227,180,79,.28)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(227,180,79,.4)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--text);width:44px;height:44px;border-radius:12px;font-size:20px;cursor:pointer}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:120px 0 80px;overflow:hidden;isolation:isolate}
+#fx{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(60% 50% at 50% 38%,rgba(107,75,214,.28),transparent 70%),
+  radial-gradient(40% 35% at 20% 80%,rgba(200,40,62,.2),transparent 70%),
+  radial-gradient(40% 35% at 85% 75%,rgba(227,180,79,.14),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:160px;background:linear-gradient(transparent,var(--bg));z-index:-1}
+.crown{width:clamp(90px,14vw,130px);margin:0 auto 10px;filter:drop-shadow(0 0 28px rgba(227,180,79,.55));animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.title{font-size:clamp(54px,12vw,150px);font-weight:700;letter-spacing:2px;direction:ltr;line-height:1;display:flex;justify-content:center;flex-wrap:wrap;gap:.18em}
+.title .m{background:linear-gradient(180deg,var(--gold2) 10%,var(--gold) 55%,#8a5f15);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(227,180,79,.25))}
+.title .e{-webkit-text-stroke:2px var(--text);color:transparent}
+.tag{margin:22px auto 34px;max-width:560px;color:var(--muted);font-size:clamp(17px,2.2vw,21px)}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.status{display:inline-flex;gap:10px;align-items:center;margin-top:44px;padding:9px 20px;border:1px solid var(--line);border-radius:99px;background:rgba(18,21,35,.55);backdrop-filter:blur(8px);font-size:15.5px;color:var(--text)}
+.dot{width:10px;height:10px;border-radius:50%;background:#35d07f;box-shadow:0 0 0 0 rgba(53,208,127,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(53,208,127,0)}100%{box-shadow:0 0 0 0 rgba(53,208,127,0)}}
+
+/* SECTIONS */
+section{padding:96px 0}
+.sh{text-align:center;margin-bottom:46px}
+.sh h2{font-size:clamp(34px,5vw,54px)}
+.sh p{color:var(--muted);max-width:620px;margin:12px auto 0}
+.rule-line{width:90px;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:18px auto 0;border-radius:3px}
+
+.about{background:var(--bg2);border-block:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 20px;text-align:center}
+.stat strong{display:block;font-family:'Reem Kufi';font-size:46px;color:var(--gold);line-height:1.1}
+.stat span{color:var(--muted)}
+
+/* RULES */
+.tools{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:28px;position:sticky;top:calc(68px + env(safe-area-inset-top,0px));z-index:10;padding:14px 0;background:var(--bg)}
+.search{flex:1 1 280px;position:relative}
+.search input{width:100%;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;padding:0 46px 0 16px}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;inset-inline-start:auto;right:16px;top:15px;width:20px;height:20px;color:var(--muted)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:15px;padding:8px 16px;border-radius:99px;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--gold);color:#1a1306;border-color:var(--gold);font-weight:700}
+.count{color:var(--muted);font-size:15px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.rule{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .2s;text-align:start}
+.rule::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:4px;background:var(--c,var(--gold))}
+.rule:hover{border-color:var(--c,var(--gold));transform:translateY(-3px)}
+.rule .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+.code{font-family:'Reem Kufi';font-weight:700;font-size:26px;color:var(--c,var(--gold));direction:ltr;letter-spacing:1px}
+.cat{font-size:13px;color:var(--muted);border:1px solid var(--line);padding:1px 10px;border-radius:99px;white-space:nowrap}
+.rule h3{font-size:19px;margin-bottom:6px}
+.rule p{margin:0;color:var(--muted);font-size:16px;line-height:1.7}
+.empty{text-align:center;padding:60px 0;color:var(--muted);display:none}
+.empty b{display:block;color:var(--text);font-size:20px;margin-bottom:6px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(4,5,10,.72);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:.2s}
+.modal.open{opacity:1;visibility:visible}
+.sheet{width:min(520px,100%);background:var(--card);border:1px solid var(--c,var(--gold));border-radius:22px;padding:34px 30px 28px;transform:scale(.94);transition:.2s;box-shadow:0 0 70px -12px var(--c,var(--gold));position:relative}
+.modal.open .sheet{transform:none}
+.sheet .code{font-size:60px;line-height:1}
+.sheet h3{font-size:26px;margin:10px 0}
+.sheet p{color:var(--muted);margin:0 0 22px}
+.x{position:absolute;top:14px;inset-inline-end:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer;font-size:18px}
+.x:hover{border-color:var(--gold);color:var(--gold)}
+
+/* JOIN */
+.join{text-align:center}
+.join .box{border:1px solid var(--line);border-radius:28px;padding:64px 24px;background:
+  radial-gradient(60% 90% at 50% 0%,rgba(227,180,79,.16),transparent 70%),var(--card)}
+.join h2{font-size:clamp(32px,5vw,50px);margin-bottom:12px}
+.join p{color:var(--muted);max-width:520px;margin:0 auto 28px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer b{color:var(--gold);font-family:'Reem Kufi'}
+
+@media (max-width:860px){
+  .burger{display:block}
+  nav{position:absolute;top:100%;inset-inline:0;background:var(--card);border-bottom:1px solid var(--line);padding:12px 22px 20px;display:none}
+  nav.open{display:block}
+  nav ul{flex-direction:column;align-items:stretch}
+  .dd-menu{position:static;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;margin-top:4px}
+  .dd-menu.open{display:block}
+  .nav>.btn{display:none}
+  section{padding:70px 0}
+  .tools{position:static}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="MeGa Empire">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#crown"/></svg>
+      <span>MeGa <b>Empire</b></span>
+    </a>
+    <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false">☰</button>
+    <nav id="nav">
+      <ul>
+        <li><a class="link" href="#home">الرئيسية</a></li>
+        <li><a class="link" href="#about">عن السيرفر</a></li>
+        <li class="dd">
+          <button class="link" id="rpBtn" aria-expanded="false" aria-haspopup="true">Role Play
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg>
+          </button>
+          <div class="dd-menu" id="rpMenu"></div>
+        </li>
+        <li><a class="link" href="#join">انضم لنا</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-gold" href="https://discord.gg/m2BJrVZQa" target="_blank" rel="noopener noreferrer">دخول السيرفر</a>
+  </div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d78a"/><stop offset=".6" stop-color="#e3b44f"/><stop offset="1" stop-color="#8a5f15"/></linearGradient>
+    <symbol id="crown" viewBox="0 0 64 64">
+      <path d="M6 22l12 12 14-20 14 20 12-12-5 28H11z" fill="url(#g)"/>
+      <rect x="11" y="52" width="42" height="6" rx="2" fill="url(#g)"/>
+      <circle cx="6" cy="21" r="3.5" fill="#f6d78a"/><circle cx="32" cy="12" r="3.5" fill="#f6d78a"/><circle cx="58" cy="21" r="3.5" fill="#f6d78a"/>
+      <circle cx="32" cy="43" r="3.5" fill="#c8283e"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main>
+<section class="hero" id="home">
+  <canvas id="fx"></canvas>
+  <div class="wrap">
+    <svg class="crown" viewBox="0 0 64 64" aria-hidden="true"><use href="#crown"/></svg>
+    <h1 class="title"><span class="m">MeGa</span><span class="e">Empire</span></h1>
+    <p class="tag">إمبراطورية الرول بلاي الحقيقية. عِش شخصيتك، اكتب قصتك، والتزم بالقوانين.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="https://discord.gg/m2BJrVZQa" target="_blank" rel="noopener noreferrer">ابدأ الآن</a>
+      <a class="btn btn-ghost" href="#rules">اقرأ قوانين الرول بلاي</a>
+    </div>
+    <div class="status"><i class="dot"></i> السيرفر يعمل الآن</div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sh">
+      <h2>عن MeGa Empire</h2>
+      <div class="rule-line"></div>
+      <p>مجتمع رول بلاي عربي مبني على الاحترام والواقعية. كل لاعب له شخصية وقصة، وكل قرار له عواقب.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong data-n="0" id="rulesN">0</strong><span>قانون رول بلاي</span></div>
+      <div class="stat"><strong data-n="5" id="catN">0</strong><span>أقسام للقوانين</span></div>
+      <div class="stat"><strong data-n="24" >0</strong><span>ساعة دعم وإدارة</span></div>
+      <div class="stat"><strong data-n="1">0</strong><span>حساب واحد لكل لاعب</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <div class="sh">
+      <h2>Role Play</h2>
+      <div class="rule-line"></div>
+      <p>قوانين الرول بلاي كاملة. ابحث بالاسم أو الكود، أو اختر القسم، واضغط على أي قانون لعرضه بالتفصيل.</p>
+    </div>
+    <div class="tools">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="ابحث عن قانون… مثال: RDM أو دعس" aria-label="بحث في القوانين">
+      </label>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty"><b>لا توجد نتائج</b>جرّب كلمة أخرى أو اختر قسم "الكل".</div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="wrap">
+    <div class="box">
+      <h2>جاهز تدخل الإمبراطورية؟</h2>
+      <p>اقرأ القوانين، انضم لديسكورد السيرفر، وقدّم على شخصيتك الأولى.</p>
+      <div class="cta">
+        <a class="btn btn-gold" href="https://discord.gg/m2BJrVZQa" target="_blank" rel="noopener noreferrer">انضم على ديسكورد</a>
+        <a class="btn btn-ghost" href="#rules">راجع القوانين أولاً</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 <b>MeGa Empire</b>. جميع الحقوق محفوظة.</span>
+    <span>جميع القوانين ملزمة لكل اللاعبين.</span>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet" id="sheet">
+    <button class="x" id="mx" aria-label="إغلاق">✕</button>
+    <div class="code" id="mCode"></div>
+    <h3 id="mTitle"></h3>
+    <p id="mDesc"></p>
+    <span class="cat" id="mCat"></span>
+  </div>
+</div>
+
+<script>
+const CATS = {
+  kill:{n:"القتل والعنف",c:"#e0384f"},
+  char:{n:"الشخصية والواقعية",c:"#8b6cf0"},
+  crime:{n:"الشرطة والجريمة",c:"#3b9ae1"},
+  gen:{n:"قوانين عامة",c:"#e3b44f"},
+  move:{n:"الحركة والسلاح",c:"#2fc490"}
+};
+// [code, title, desc, cat]
+const RULES = [
+ ["ATA","نقل الممتلكات","نقل الممتلكات من شخصية لأخرى.","gen"],
+ ["ARSON","إشعال الحرائق","تسبب حريق ويجب وجود إطفاء.","crime"],
+ ["FRP","فشل تقمص الدور","فشل اللاعب في تقمص دور شخصيته.","char"],
+ ["BH","قفزة الأرنب","أن تجري وتقفز باستمرار لتقريب المسافة.","move"],
+ ["BRAWLC","قتل بدون أربي","القتل بدون الأربي.","kill"],
+ ["BR","القتل داخل الأربي فقط","يجب عليك القتل داخل الأربي فقط.","kill"],
+ ["CK","إعدام الشخصية","إعدام الشخصية من قبل الأدمن إذا مت خارج المدينة، أو بمداهمة، أو في تبادل إطلاق النار بين الشرطة والعصابة.","kill"],
+ ["CCTV","لغة التهكير والبرمجة","لغة التهكير والبرمجة.","crime"],
+ ["CR","الجري وتفادي الرصاص","الجري وتفادي إطلاق النار.","move"],
+ ["CD","تطوير الشخصية","تطوير الشخصية، مثل أن تدرّب شخصيتك على السباحة.","char"],
+ ["DM","قتل بدون سبب","القتل بدون سبب، مثال: تلاقي شخص ماشي وتقتله بدون سبب.","kill"],
+ ["DDB","إطلاق نار من السيارة","أن تطلق النار بسلاح ثقيل وأنت تسوق، مثل AK وM4 وغيرها.","move"],
+ ["DP","دعس شخص بالأربي","دعس شخص بالأربي.","kill"],
+ ["DUC","تخريب الشخصية","تخريب الشخصية مثل الانتحار.","char"],
+ ["DOS","شارة بدون ديوتي","شارة بدون ديوتي والعكس.","crime"],
+ ["DFL","تدمير حياة الشخصية","تدمير حياة الشخصية، مثل التدخين.","char"],
+ ["GR","القاعدة الذهبية","احترام اللاعبين وعدم سبّهم خارج الأربي.","gen"],
+ ["KOS","الحقد على شخص","الحقد على شخص داخل الأربي أو خارجه.","kill"],
+ ["LTA","الهروب من الأربي","الهروب من الأربي، مثال: تكون في أربي والشرطة قابضة عليك فتخرج من السيرفر.","crime"],
+ ["LK","إذن إطلاق النار","تحتاج إذن لإطلاق النار في مكان عام مثل مركز المدينة.","kill"],
+ ["MG","التفريق بين الشاتين","التفريق بين الشات الداخلي (IC) والخارجي (OOC).","char"],
+ ["MC","إطلاق نار بالخطأ","إطلاق نار أو ضرب شخص بالخطأ.","kill"],
+ ["MA","حساب واحد","كل شخص يمتلك حساباً واحداً.","gen"],
+ ["MULTIPLE ACCOUNTS","تعدد الحسابات","تعدد الحسابات، مثل أن تسوي أكثر من حساب.","gen"],
+ ["NJ","عمل بدون أربي","أن تسرق أو تفعل أشياء دون عمل أربي.","crime"],
+ ["NG","إنزال شخص من مركبته","إنزال شخص من مركبته الخاصة به.","crime"],
+ ["NK","ضرب أثناء الجري","ضرب شخص بيدك أو بسلاح أبيض وأنت تجري.","move"],
+ ["NON-RP","فعل بدون أربي","فعل أشياء بدون أربي.","char"],
+ ["PG","أفعال خارقة","فعل أشياء خارقة مثل أن تصدم ولا تحس.","char"],
+ ["PK","فقدان الذاكرة","فقدان الذاكرة لمدة محددة بعد قتلك، وعندما تنتهي المدة تتذكر كل شيء ببطء.","kill"],
+ ["PD","استفزاز الشرطة","أن تستفز الشرطة فقط من أجل أن تستمتع.","crime"],
+ ["PI","تفتيش الممتلكات","قانون تفتيش الممتلكات والعقارات.","crime"],
+ ["RK","قتل الانتقام","مثال: شخص قتلك أو قتل صديقك وبعدها تروح تقتله.","kill"],
+ ["RTR","الركض المستمر","الركض المستمر دون تعب أو توقف، ويعتبر ضمن PG.","move"],
+ ["RPZ","منطقة الأربي","لعب أربي في منطقة محدودة ولا تخرج منها.","gen"],
+ ["RPG","أربي جي","أخذ أربي جي من أمر السلاح، وعليها وارن.","move"],
+ ["RDM","قتل نفس الشخص","قتل نفس الشخص بدون توقف.","kill"],
+ ["SK","قتل الريسباون","قتل اللاعبين في مكان الريسباون.","kill"],
+ ["SL","أفعال مقززة","فعل أشياء مقززة في مكان عام.","gen"],
+ ["SP","النصب","النصب بأكثر من 10 آلاف.","crime"],
+ ["SC","اسم شخصية مشهورة","استخدام اسم شخصية مشهورة.","char"],
+ ["TK","قتل بالفاكشن","قتل شخص بالفاكشن.","kill"],
+ ["UH","العادات المضرة","فعل العادات المضرة مثل التدخين.","char"],
+ ["VDM","الدعس بالسيارة","استخدام سيارة لدعس الأشخاص.","kill"],
+ ["WA","إعلان خاطئ","إعلان خاطئ.","gen"],
+ ["WH","القفز بالموتوسيكل","تركب موتوسيكل وتقفز فوق الجبال والبيوت.","move"],
+ ["WS","ستاتس خاطئ","ستاتس خاطئ.","gen"]
+];
+
+const $ = s => document.querySelector(s);
+let cat = "all", term = "";
+
+// counts + chips + dropdown
+const counts = {all:RULES.length};
+RULES.forEach(r => counts[r[3]] = (counts[r[3]]||0)+1);
+$("#rulesN").dataset.n = RULES.length;
+$("#catN").dataset.n = Object.keys(CATS).length;
+
+const chipsEl = $("#chips"), menu = $("#rpMenu");
+function mkChip(id, name){
+  const b = document.createElement("button");
+  b.className = "chip" + (id===cat ? " on":"");
+  b.textContent = name; b.dataset.id = id;
+  b.onclick = () => setCat(id);
+  chipsEl.appendChild(b);
+}
+mkChip("all","الكل");
+Object.entries(CATS).forEach(([id,v]) => mkChip(id,v.n));
+
+menu.innerHTML = `<a href="#rules" data-id="all">كل القوانين <span>${counts.all}</span></a>` +
+  Object.entries(CATS).map(([id,v]) => `<a href="#rules" data-id="${id}">${v.n} <span>${counts[id]||0}</span></a>`).join("");
+menu.addEventListener("click", e => {
+  const a = e.target.closest("a"); if(!a) return;
+  setCat(a.dataset.id); closeMenus();
+});
+
+function setCat(id){
+  cat = id;
+  chipsEl.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c.dataset.id===id));
+  render();
+}
+
+function norm(s){return s.toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي")}
+
+function render(){
+  const q = norm(term.trim());
+  const list = RULES.filter(r =>
+    (cat==="all" || r[3]===cat) &&
+    (!q || norm(r[0]+" "+r[1]+" "+r[2]).includes(q))
+  );
+  $("#grid").innerHTML = list.map(r => {
+    const c = CATS[r[3]];
+    return `<article class="rule" style="--c:${c.c}" tabindex="0" role="button" data-code="${r[0]}">
+      <div class="top"><span class="code">${r[0]}</span><span class="cat">${c.n}</span></div>
+      <h3>${r[1]}</h3><p>${r[2]}</p></article>`;
+  }).join("");
+  $("#empty").style.display = list.length ? "none":"block";
+  $("#count").textContent = `يتم عرض ${list.length} من ${RULES.length} قانون`;
+}
+
+$("#q").addEventListener("input", e => { term = e.target.value; render(); });
+
+// modal
+const modal = $("#modal");
+function openRule(code){
+  const r = RULES.find(x => x[0]===code); if(!r) return;
+  const c = CATS[r[3]];
+  $("#sheet").style.setProperty("--c", c.c);
+  $("#mCode").textContent = r[0]; $("#mCode").style.color = c.c;
+  $("#mTitle").textContent = r[1]; $("#mDesc").textContent = r[2]; $("#mCat").textContent = c.n;
+  modal.classList.add("open"); $("#mx").focus();
+}
+function closeModal(){ modal.classList.remove("open"); }
+$("#grid").addEventListener("click", e => { const a = e.target.closest(".rule"); if(a) openRule(a.dataset.code); });
+$("#grid").addEventListener("keydown", e => { if((e.key==="Enter"||e.key===" ") && e.target.classList.contains("rule")){ e.preventDefault(); openRule(e.target.dataset.code);} });
+$("#mx").onclick = closeModal;
+modal.addEventListener("click", e => { if(e.target===modal) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape"){ closeModal(); closeMenus(); } });
+
+// nav
+const rpBtn = $("#rpBtn"), nav = $("#nav"), burger = $("#burger");
+function closeMenus(){ menu.classList.remove("open"); rpBtn.setAttribute("aria-expanded","false"); nav.classList.remove("open"); burger.setAttribute("aria-expanded","false"); }
+rpBtn.onclick = e => { e.stopPropagation(); const o = menu.classList.toggle("open"); rpBtn.setAttribute("aria-expanded", o); };
+burger.onclick = e => { e.stopPropagation(); const o = nav.classList.toggle("open"); burger.setAttribute("aria-expanded", o); };
+document.addEventListener("click", e => { if(!e.target.closest(".dd")) { menu.classList.remove("open"); rpBtn.setAttribute("aria-expanded","false"); } });
+nav.querySelectorAll("a.link").forEach(a => a.addEventListener("click", closeMenus));
+
+// count-up
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if(!en.isIntersecting) return;
+  const el = en.target, n = +el.dataset.n; let i = 0;
+  const step = Math.max(1, Math.ceil(n/30));
+  const t = setInterval(() => { i = Math.min(n, i+step); el.textContent = i; if(i>=n) clearInterval(t); }, 35);
+  io.unobserve(el);
+}), {threshold:.6});
+document.querySelectorAll("[data-n]").forEach(el => io.observe(el));
+
+// hero embers
+(function(){
+  const cv = $("#fx"), ctx = cv.getContext("2d");
+  let W,H,ps=[];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function size(){ W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight;
+    ps = Array.from({length: Math.min(70, Math.floor(W/16))}, () => mk(true)); }
+  function mk(r){ return {x:Math.random()*W, y:r?Math.random()*H:H+10, s:Math.random()*2+.6, v:Math.random()*.5+.2, d:Math.random()*Math.PI*2, g:Math.random()<.25}; }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach((p,i) => {
+      p.y -= p.v; p.x += Math.sin(p.d += .01)*.3;
+      if(p.y < -10) ps[i] = mk(false);
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7);
+      ctx.fillStyle = p.g ? "rgba(200,40,62,.7)" : "rgba(246,215,138,.75)";
+      ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 10; ctx.fill();
+    });
+    if(!reduce) requestAnimationFrame(tick);
+  }
+  addEventListener("resize", size); size(); tick();
+})();
+
+render();
+</script>
+</body>
+</html>
